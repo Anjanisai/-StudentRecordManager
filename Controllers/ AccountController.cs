@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudentRecordManager.Models;
+using BCryptNet = BCrypt.Net.BCrypt; // Import BCrypt
 
 namespace StudentRecordManager.Controllers
 {
@@ -33,7 +34,7 @@ namespace StudentRecordManager.Controllers
             var newUser = new UserAccount
             {
                 Username = username,
-                PasswordHash = password // In production apps, hash this using BCrypt!
+                PasswordHash = BCryptNet.HashPassword(password) // Hash the password securely!
             };
 
             _context.UserAccounts.Add(newUser);
@@ -51,11 +52,12 @@ namespace StudentRecordManager.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string username, string password)
         {
-            // Query database rows directly to find matching system credentials
+            // First, find the user by their username row
             var user = await _context.UserAccounts
-                .FirstOrDefaultAsync(u => u.Username == username && u.PasswordHash == password);
+                .FirstOrDefaultAsync(u => u.Username == username);
 
-            if (user != null)
+            // Verify if the user exists and the cryptographically hashed password matches!
+            if (user != null && BCryptNet.Verify(password, user.PasswordHash))
             {
                 var claims = new List<Claim> { new Claim(ClaimTypes.Name, user.Username) };
                 var identity = new ClaimsIdentity(claims, "MyCookieAuth");
@@ -76,3 +78,4 @@ namespace StudentRecordManager.Controllers
         }
     }
 }
+

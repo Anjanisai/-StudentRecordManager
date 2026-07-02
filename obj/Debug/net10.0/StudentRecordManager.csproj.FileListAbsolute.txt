@@ -365,3 +365,7 @@
 /Users/somayellaanjani/Desktop/ StudentRecordManager/obj/Debug/net10.0/StudentRecordManager.pdb
 /Users/somayellaanjani/Desktop/ StudentRecordManager/obj/Debug/net10.0/StudentRecordManager.genruntimeconfig.cache
 /Users/somayellaanjani/Desktop/ StudentRecordManager/obj/Debug/net10.0/ref/StudentRecordManager.dll
+/Users/somayellaanjani/Desktop/ StudentRecordManager/bin/Debug/net10.0/BCrypt-Net-Next.dll
+/Users/somayellaanjani/Desktop/ StudentRecordManager/bin/Debug/net10.0/EPPlus.dll
+/Users/somayellaanjani/Desktop/ StudentRecordManager/bin/Debug/net10.0/EPPlus.Interfaces.dll
+/Users/somayellaanjani/Desktop/ StudentRecordManager/bin/Debug/net10.0/Microsoft.IO.RecyclableMemoryStream.dll
