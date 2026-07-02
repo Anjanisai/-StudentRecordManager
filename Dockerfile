@@ -11,7 +11,7 @@ COPY . ./
 RUN dotnet publish -c Release -o out
 
 # Build the lightweight runtime container hosting layer
-FROM ://microsoft.com 
+FROM ://microsoft.com
 WORKDIR /app
 COPY --from=build-env /app/out .
 
@@ -20,3 +20,4 @@ ENV ASPNETCORE_URLS=http://+:10000
 EXPOSE 10000
 
 ENTRYPOINT ["dotnet", "StudentRecordManager.dll"]
+
