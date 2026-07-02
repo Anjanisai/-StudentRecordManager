@@ -1,6 +1,5 @@
 # Use the official Microsoft SDK image to build and compile the application code
-FROM ://microsoft.com
- AS build-env
+FROM ://microsoft.com AS build-env
 WORKDIR /app
 
 # Copy the project configuration tracking maps and restore dependencies
@@ -12,8 +11,7 @@ COPY . ./
 RUN dotnet publish -c Release -o out
 
 # Build the lightweight runtime container hosting layer
-FROM ://microsoft.com
-
+FROM ://microsoft.com 
 WORKDIR /app
 COPY --from=build-env /app/out .
 
