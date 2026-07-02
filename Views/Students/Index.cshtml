@@ -1,58 +1,76 @@
 @model IEnumerable<StudentRecordManager.Models.Student>
 
 @{
-    ViewData["Title"] = "Index";
-    <form asp-controller="Students" asp-action="Index" method="get" class="mb-4">
-    <div class="input-group" style="max-width: 400px;">
-        <input type="text" name="searchString" class="form-control" placeholder="Search students by name..." />
-        <button type="submit" class="btn btn-primary">Search</button>
-    </div>
-</form>
+    ViewData["Title"] = "Dashboard - Student Directory";
 }
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Age)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Course)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Age)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Course)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="container mt-5">
+    <!-- Header Block Component -->
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+        <div>
+            <h1 class="fw-bold text-dark mb-1">Student Management</h1>
+            <p class="text-muted mb-0">Review, search, and update system academic profiles.</p>
+        </div>
+        <div>
+            <a asp-action="Create" class="btn btn-primary px-4 py-2 rounded-3 fw-bold shadow-sm">+ Add New Student</a>
+        </div>
+    </div>
+
+    <!-- Search Engine Container Layout -->
+    <div class="card shadow-sm border-0 rounded-3 mb-4 bg-light p-3">
+        <form asp-controller="Students" asp-action="Index" method="get">
+            <div class="input-group">
+                <input type="text" name="searchString" class="form-control border-2 bg-white px-3" placeholder="Search by student name..." aria-label="Search students" />
+                <button type="submit" class="btn btn-dark px-4 fw-bold">Apply Filter</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Data Grid Panel Table Component -->
+    <div class="card shadow-sm border-0 rounded-3 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-dark text-white text-uppercase fs-7 small tracking-wider">
+                    <tr>
+                        <th class="py-3 px-4">Student Profile</th>
+                        <th class="py-3">Age Check</th>
+                        <th class="py-3">Enrolled Course</th>
+                        <th class="py-3">Contact Email</th>
+                        <th class="py-3 px-4 text-end">Control Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="border-top-0">
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-muted fw-semibold">No student records found matching your keyword.</td>
+                        </tr>
+                    }
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="py-3 px-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold me-3 shadow-sm" style="width: 40px; height: 40px; min-width: 40px;">
+                                        @item.Name.Substring(0, Math.Min(2, item.Name.Length)).ToUpper()
+                                    </div>
+                                    <span class="fw-bold text-dark fs-6">@Html.DisplayFor(modelItem => item.Name)</span>
+                                </div>
+                            </td>
+                            <td><span class="text-secondary fw-semibold">@Html.DisplayFor(modelItem => item.Age) yrs</span></td>
+                            <td><span class="badge bg-info bg-opacity-10 text-info px-3 py-2 border border-info border-opacity-25 rounded-pill fw-bold">@Html.DisplayFor(modelItem => item.Course)</span></td>
+                            <td class="text-muted">@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td class="py-3 px-4 text-end">
+                                <div class="btn-group shadow-sm rounded-3 overflow-hidden">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary px-3">Edit</a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary px-3">View</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger px-3 text-white fw-bold">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

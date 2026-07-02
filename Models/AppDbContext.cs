@@ -9,5 +9,6 @@ namespace StudentRecordManager.Models
         }
 
         public DbSet<Student> Students { get; set; }
+        public DbSet<UserAccount> UserAccounts { get; set; }
     }
 }

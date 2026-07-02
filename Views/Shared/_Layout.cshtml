@@ -31,6 +31,7 @@
                     </ul>
                     
                     <!-- Secure Portal Authentication Layout Button Grid Trigger -->
+                                        <!-- Secure Portal Authentication Layout Button Grid Trigger -->
                     <ul class="navbar-nav">
                         @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
@@ -43,8 +44,11 @@
                         }
                         else
                         {
+                            <li class="nav-item me-2">
+                                <a class="btn btn-outline-success btn-sm px-3 mt-1" asp-controller="Account" asp-action="Register">Register Admin</a>
+                            </li>
                             <li class="nav-item">
-                                <a class="btn btn-outline-primary btn-sm px-3 mt-1" asp-controller="Account" asp-action="Login">Admin Login</a>
+                                <a class="btn btn-primary btn-sm px-3 mt-1 text-white fw-semibold" asp-controller="Account" asp-action="Login">Admin Login</a>
                             </li>
                         }
                     </ul>
