@@ -1,3 +1,4 @@
+cat << 'EOF' > Dockerfile
 # Use the official Microsoft SDK image to build and compile the application code
 FROM ://microsoft.com AS build-env
 WORKDIR /app
@@ -20,4 +21,4 @@ ENV ASPNETCORE_URLS=http://+:10000
 EXPOSE 10000
 
 ENTRYPOINT ["dotnet", "StudentRecordManager.dll"]
-
+EOF
