@@ -4,10 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - StudentRecordManager</title>
-    <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/StudentRecordManager.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css"   />
+    <link rel="stylesheet" href="~/StudentRecordManager.styles.css"   />
 </head>
 <body>
     <header>
@@ -27,8 +26,27 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-    <a class="nav-link text-dark" asp-area="" asp-controller="Students" asp-action="Index">Students</a>
-</li>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Students" asp-action="Index">Students</a>
+                        </li>
+                    </ul>
+                    
+                    <!-- Secure Portal Authentication Layout Button Grid Trigger -->
+                    <ul class="navbar-nav">
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <span class="nav-link text-muted me-3 align-middle mt-1 d-inline-block">Hello, @User.Identity.Name!</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-outline-danger btn-sm px-3 mt-1" asp-controller="Account" asp-action="Logout">Sign Out</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="btn btn-outline-primary btn-sm px-3 mt-1" asp-controller="Account" asp-action="Login">Admin Login</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

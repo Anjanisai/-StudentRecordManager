@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StudentRecordManager.Models;
 
 namespace StudentRecordManager.Controllers
 {
+    [Authorize]
     public class StudentsController : Controller
     {
         private readonly AppDbContext _context;
@@ -18,10 +15,17 @@ namespace StudentRecordManager.Controllers
             _context = context;
         }
 
-        // GET: Students
-        public async Task<IActionResult> Index()
+        // GET: Students (with built-in Search functionality)
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Students.ToListAsync());
+            var students = from s in _context.Students select s;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                students = students.Where(s => s.Name.Contains(searchString));
+            }
+
+            return View(await students.ToListAsync());
         }
 
         // GET: Students/Details/5
@@ -49,8 +53,6 @@ namespace StudentRecordManager.Controllers
         }
 
         // POST: Students/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Age,Course,Email")] Student student)
@@ -81,8 +83,6 @@ namespace StudentRecordManager.Controllers
         }
 
         // POST: Students/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,Course,Email")] Student student)
